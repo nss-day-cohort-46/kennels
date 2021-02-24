@@ -1,4 +1,5 @@
 import React from "react"
+import { AnimalCard } from "./animal/AnimalCard"
 import "./Kennel.css"
 
 export const Kennel = () => {
@@ -12,6 +13,49 @@ export const Kennel = () => {
     ]
   }
 
+  const animals = [
+    {
+      "name": "Doodles",
+      "breed": "Poodle",
+      "locationId": 1,
+      "customerId": 3,
+      "id": 1
+    },
+    {
+      "id": 2,
+      "name": "Kelvin",
+      "breed": "Bulldog",
+      "customerId": 3,
+      "locationId": 2,
+    },
+    {
+      "name": "Midnight",
+      "breed": "Bulldog",
+      "locationId": 2,
+      "customerId": 3,
+      "id": 3
+    },
+    {
+      "name": "Chowder",
+      "breed": "Pomeranian",
+      "locationId": 1,
+      "customerId": 3,
+      "id": 4
+    },
+    {
+      "name": "Nimbus",
+      "breed": "Bulldog",
+      "locationId": 1,
+      "customerId": 3,
+      "id": 5
+    }
+  ]
+
+  const koopa = {
+    name: "Koopa",
+    breed: "Sulcata tortoise"
+  }
+
   // debugger
 
   return (
@@ -23,6 +67,28 @@ export const Kennel = () => {
         <div>Visit Us at the {kennel.locations[0].name} Location</div>
         <div>{kennel.locations[0].address}</div>
       </address>
+      <article className="animals">
+        {
+          animals.map(animal => {
+            return <AnimalCard key={animal.id} animal={animal} />
+          })
+        }
+      </article>
+
+      <AnimalCard animal={koopa} />
     </>
   )
 }
+
+/*
+<AnimalCard key={animal.id} animal={animal} />
+is actually doing this:
+const props = {
+  animal: {
+    name: "",
+    breed: "",
+    ...
+  }
+}
+AnimalCard(props)
+*/
