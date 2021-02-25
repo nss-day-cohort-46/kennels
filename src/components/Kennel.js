@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { AnimalCard } from "./animal/AnimalCard"
 import "./Kennel.css"
 
 export const Kennel = () => {
-  const kennel = {
+  // let counter = 1
+  let [counter, setCounter] = useState(1)
+
+  const [kennel, setKennel] = useState({
     name: "Nashville Kennels: #1 in Davidson County",
     locations: [
       {
@@ -11,9 +14,9 @@ export const Kennel = () => {
         address: "500 Puppy Way"
       }
     ]
-  }
+  })
 
-  const animals = [
+  const [animals, setAnimals] = useState([
     {
       "name": "Doodles",
       "breed": "Poodle",
@@ -26,7 +29,7 @@ export const Kennel = () => {
       "name": "Kelvin",
       "breed": "Bulldog",
       "customerId": 3,
-      "locationId": 2,
+      "locationId": 2
     },
     {
       "name": "Midnight",
@@ -49,11 +52,17 @@ export const Kennel = () => {
       "customerId": 3,
       "id": 5
     }
-  ]
+  ])
 
-  const koopa = {
-    name: "Koopa",
-    breed: "Sulcata tortoise"
+
+  const incrementCounter = () => {
+    // debugger
+    const newCounterValue = ++counter
+
+    // DO NOT DO: counter = newCounterValue
+    setCounter(newCounterValue)
+    console.log("counter", counter)
+    console.log("setCounter", setCounter)
   }
 
   // debugger
@@ -67,15 +76,18 @@ export const Kennel = () => {
         <div>Visit Us at the {kennel.locations[0].name} Location</div>
         <div>{kennel.locations[0].address}</div>
       </address>
+      <article>
+        <div>Currently helping #{counter}</div>
+        <button onClick={incrementCounter}>Take a number</button>
+      </article>
+      <h4>Animals</h4>
       <article className="animals">
         {
-          animals.map(animal => {
-            return <AnimalCard key={animal.id} animal={animal} />
+          animals.map(animalObject => {
+            return <AnimalCard key={animalObject.id} animalProps={animalObject} />
           })
         }
       </article>
-
-      <AnimalCard animal={koopa} />
     </>
   )
 }
