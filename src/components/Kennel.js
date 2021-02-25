@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { AnimalCard } from "./animal/AnimalCard"
 import "./Kennel.css"
 
@@ -16,44 +16,18 @@ export const Kennel = () => {
     ]
   })
 
-  const [animals, setAnimals] = useState([
-    {
-      "name": "Doodles",
-      "breed": "Poodle",
-      "locationId": 1,
-      "customerId": 3,
-      "id": 1
-    },
-    {
-      "id": 2,
-      "name": "Kelvin",
-      "breed": "Bulldog",
-      "customerId": 3,
-      "locationId": 2
-    },
-    {
-      "name": "Midnight",
-      "breed": "Bulldog",
-      "locationId": 2,
-      "customerId": 3,
-      "id": 3
-    },
-    {
-      "name": "Chowder",
-      "breed": "Pomeranian",
-      "locationId": 1,
-      "customerId": 3,
-      "id": 4
-    },
-    {
-      "name": "Nimbus",
-      "breed": "Bulldog",
-      "locationId": 1,
-      "customerId": 3,
-      "id": 5
-    }
-  ])
+  const [animals, setAnimals] = useState([])
 
+  useEffect(() => {
+    console.log("Fetching animals data from API")
+    fetch("http://localhost:8088/animals")
+      .then(response => response.json())
+      .then(animalsData => setAnimals(animalsData))
+  }, [])
+
+  // useEffect(() => {
+  //   console.log("useEffect that runs every time counter changes")
+  // }, [counter])
 
   const incrementCounter = () => {
     // debugger
@@ -61,15 +35,15 @@ export const Kennel = () => {
 
     // DO NOT DO: counter = newCounterValue
     setCounter(newCounterValue)
-    console.log("counter", counter)
-    console.log("setCounter", setCounter)
+    // console.log("counter", counter)
+    // console.log("setCounter", setCounter)
   }
 
   // debugger
 
   return (
     <>
-      {console.log("kennel object", kennel.locations)}
+      {console.log("render jsx")}
       <h2>{kennel.name}</h2>
       <small>Loving care when you're not there.</small>
       <address>
