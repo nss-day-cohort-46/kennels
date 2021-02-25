@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { AnimalCard } from "./animal/AnimalCard"
+import { AnimalList } from "./animal/AnimalList"
+import { AnimalProvider } from "./animal/AnimalProvider"
 import "./Kennel.css"
 
 export const Kennel = () => {
@@ -15,15 +16,6 @@ export const Kennel = () => {
       }
     ]
   })
-
-  const [animals, setAnimals] = useState([])
-
-  useEffect(() => {
-    console.log("Fetching animals data from API")
-    fetch("http://localhost:8088/animals")
-      .then(response => response.json())
-      .then(animalsData => setAnimals(animalsData))
-  }, [])
 
   // useEffect(() => {
   //   console.log("useEffect that runs every time counter changes")
@@ -54,14 +46,9 @@ export const Kennel = () => {
         <div>Currently helping #{counter}</div>
         <button onClick={incrementCounter}>Take a number</button>
       </article>
-      <h4>Animals</h4>
-      <article className="animals">
-        {
-          animals.map(animalObject => {
-            return <AnimalCard key={animalObject.id} animalProps={animalObject} />
-          })
-        }
-      </article>
+      <AnimalProvider>
+        <AnimalList />
+      </AnimalProvider>
     </>
   )
 }
