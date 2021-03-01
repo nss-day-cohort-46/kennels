@@ -4,12 +4,17 @@ import "./Animal.css"
 import { AnimalContext } from "./AnimalProvider"
 import { CustomerContext } from "../customer/CustomerProvider"
 import { LocationContext } from "../location/LocationProvider"
+import { useHistory } from "react-router-dom"
 
 export const AnimalList = () => {
+  const history = useHistory()
+
   // This state changes when `getAnimals()` is invoked below
   const { animals, getAnimals } = useContext(AnimalContext)
   const { customers, getCustomers } = useContext(CustomerContext)
   const { locations, getLocations } = useContext(LocationContext)
+
+
 
 
   useEffect(() => {
@@ -23,6 +28,7 @@ export const AnimalList = () => {
     <>
       {/* {console.log("Data for AnimalList", animals, customers, locations)} */}
       <h4>Animals</h4>
+      <button onClick={() => { history.push("/animals/create") }}>Add Animal</button>
       <article className="animals">
         {
           animals.map(animalObject => {
