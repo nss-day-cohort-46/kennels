@@ -2,7 +2,7 @@ import React, { useState, createContext } from "react"
 
 export const LocationContext = createContext()
 
-export const CustomerProvider = (props) => {
+export const LocationProvider = (props) => {
   const [locations, setLocations] = useState([])
 
   const getLocations = () => {
@@ -13,7 +13,7 @@ export const CustomerProvider = (props) => {
 
   return (
     <LocationContext.Provider value={{
-      locations, setLocations
+      locations, getLocations
     }}>
       {props.children}
     </LocationContext.Provider>

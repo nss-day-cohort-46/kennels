@@ -2,24 +2,33 @@ import React, { useEffect, useContext } from "react"
 import { AnimalCard } from "./AnimalCard"
 import "./Animal.css"
 import { AnimalContext } from "./AnimalProvider"
+import { CustomerContext } from "../customer/CustomerProvider"
+import { LocationContext } from "../location/LocationProvider"
 
 export const AnimalList = () => {
   // This state changes when `getAnimals()` is invoked below
   const { animals, getAnimals } = useContext(AnimalContext)
+  const { customers, getCustomers } = useContext(CustomerContext)
+  const { locations, getLocations } = useContext(LocationContext)
 
 
   useEffect(() => {
     console.log("Fetching animals data from API")
-    getAnimals()
+    getLocations()
+      .then(getCustomers)
+      .then(getAnimals)
   }, [])
 
   return (
     <>
+      {/* {console.log("Data for AnimalList", animals, customers, locations)} */}
       <h4>Animals</h4>
       <article className="animals">
         {
           animals.map(animalObject => {
-            return <AnimalCard key={animalObject.id} animalProps={animalObject} />
+            const owner = customers.find(c => c.id === animalObject.customerId)
+            const location = locations.find(l => l.id === animalObject.locationId)
+            return <AnimalCard key={animalObject.id} animalProps={animalObject} owner={owner} location={location} />
           })
         }
       </article>
