@@ -26,3 +26,16 @@ export const AnimalList = () => {
     </>
   )
 }
+
+/*
+<AnimalCard key={animal.id} animal={animal} />
+is actually doing this:
+const props = {
+  animal: {
+    name: "",
+    breed: "",
+    ...
+  }
+}
+AnimalCard(props)
+*/
