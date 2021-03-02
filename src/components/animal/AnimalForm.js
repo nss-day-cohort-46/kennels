@@ -30,10 +30,16 @@ export const AnimalForm = () => {
     always create a copy, make changes, and then set state.*/
     const newAnimal = { ...animal }
 
+    let selectedValue = event.target.value
+    // forms always provide values as strings. But we want to save the ids as numbers. This will cover both customer and location ids
+    if (event.target.id.includes("Id")) {
+      selectedValue = parseInt(selectedValue)
+    }
+
     /* Animal is an object with properties.
     Set the property to the new value
     using object bracket notation. */
-    newAnimal[event.target.id] = event.target.value
+    newAnimal[event.target.id] = selectedValue
 
     // Update state
     setAnimal(newAnimal)
@@ -48,16 +54,10 @@ export const AnimalForm = () => {
     if (locationId === 0 || customerId === 0) {
       window.alert("Please select a location and a customer")
     } else {
-      //Invoke addAnimal passing the new animal object as an argument
-      //Once complete, change the url and display the animal list
 
-      const newAnimal = {
-        name: animal.name,
-        breed: animal.breed,
-        locationId: locationId,
-        customerId: customerId
-      }
-      addAnimal(newAnimal)
+      //Invoke addAnimal passing animal as an argument
+      //Once complete, change the url and display the animal list
+      addAnimal(animal)
         .then(() => history.push("/animals"))
     }
   }
@@ -91,7 +91,7 @@ export const AnimalForm = () => {
       locationId: animal.locationId,
       customerId: animal.customerId
     }
-    newAnimal.locationId = event.target.value
+    newAnimal.locationId = parseInt(event.target.value)
     setAnimal(newAnimal)
   }
 
@@ -102,7 +102,7 @@ export const AnimalForm = () => {
       locationId: animal.locationId,
       customerId: animal.customerId
     }
-    newAnimal.customerId = event.target.value
+    newAnimal.customerId = parseInt(event.target.value)
     setAnimal(newAnimal)
   }
 
