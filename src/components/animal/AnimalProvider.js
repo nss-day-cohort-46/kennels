@@ -13,6 +13,17 @@ export const AnimalProvider = (props) => {
       .then(animalsData => setAnimals(animalsData))
   }
 
+  const addAnimal = animal => {
+    return fetch("http://localhost:8088/animals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(animal)
+    })
+      .then(response => response.json())
+  }
+
   /*
       You return a context provider which has the
       `animals` state, `getAnimals` function,
@@ -21,8 +32,9 @@ export const AnimalProvider = (props) => {
   */
   return (
     <AnimalContext.Provider value={{
-      animals: animals, 
-      getAnimals: getAnimals
+      animals: animals,
+      getAnimals: getAnimals,
+      addAnimal: addAnimal
       // animals, getAnimals
     }}>
       {props.children}
