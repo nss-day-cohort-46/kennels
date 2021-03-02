@@ -7,6 +7,8 @@ import { LocationContext } from "../location/LocationProvider"
 import { useHistory } from "react-router-dom"
 
 export const AnimalList = () => {
+  
+  // The useHistory hook let's us tell React which route we want to visit. We will use it to tell React to render the animal form component.
   const history = useHistory()
 
   // This state changes when `getAnimals()` is invoked below
