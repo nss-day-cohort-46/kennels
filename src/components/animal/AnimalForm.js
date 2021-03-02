@@ -7,6 +7,8 @@ import { useHistory } from 'react-router-dom';
 
 export const AnimalForm = () => {
   const { addAnimal } = useContext(AnimalContext)
+  const { locations, getLocations } = useContext(LocationContext)
+  const { customers, getCustomers } = useContext(CustomerContext)
 
   /*
   Controlled component
@@ -19,7 +21,15 @@ export const AnimalForm = () => {
     breed: "",
     locationId: 0,
     customerId: 0
-  });
+  })
+
+  /*
+    Reach out to the world and get customers state
+    and locations state on initialization, so we can provide their data in the form dropdowns
+    */
+  useEffect(() => {
+    getCustomers().then(getLocations)
+  }, [])
 
   const history = useHistory();
 
@@ -39,6 +49,7 @@ export const AnimalForm = () => {
     /* Animal is an object with properties.
     Set the property to the new value
     using object bracket notation. */
+
     newAnimal[event.target.id] = selectedValue
 
     // Update state
@@ -62,49 +73,6 @@ export const AnimalForm = () => {
     }
   }
 
-  const handleNameInputChange = (event) => {
-    const newAnimal = {
-      name: animal.name,
-      breed: animal.breed,
-      locationId: animal.locationId,
-      customerId: animal.customerId
-    }
-    newAnimal.name = event.target.value
-    setAnimal(newAnimal)
-  }
-
-  const handleBreedInputChange = (event) => {
-    const newAnimal = {
-      name: animal.name,
-      breed: animal.breed,
-      locationId: animal.locationId,
-      customerId: animal.customerId
-    }
-    newAnimal.breed = event.target.value
-    setAnimal(newAnimal)
-  }
-
-  const handleLocationInputChange = (event) => {
-    const newAnimal = {
-      name: animal.name,
-      breed: animal.breed,
-      locationId: animal.locationId,
-      customerId: animal.customerId
-    }
-    newAnimal.locationId = parseInt(event.target.value)
-    setAnimal(newAnimal)
-  }
-
-  const handleCustomerInputChange = (event) => {
-    const newAnimal = {
-      name: animal.name,
-      breed: animal.breed,
-      locationId: animal.locationId,
-      customerId: animal.customerId
-    }
-    newAnimal.customerId = parseInt(event.target.value)
-    setAnimal(newAnimal)
-  }
 
   return (
     <form className="animalForm">
@@ -112,32 +80,42 @@ export const AnimalForm = () => {
       <fieldset>
         <div className="form-group">
           <label htmlFor="name">Animal name:</label>
-          <input type="text" id="name" required autoFocus className="form-control" placeholder="Animal name" />
+          <input type="text" id="name" required autoFocus className="form-control" placeholder="Animal name" value={animal.name} onChange={handleControlledInputChange}/>
         </div>
       </fieldset>
       <fieldset>
         <div className="form-group">
-          <label htmlFor="name">Animal breed:</label>
-          <input type="text" id="breed" required autoFocus className="form-control" placeholder="Animal breed" />
+          <label htmlFor="breed">Animal breed:</label>
+          <input type="text" id="breed" required className="form-control" placeholder="Animal breed" value={animal.breed} onChange={handleControlledInputChange} />
         </div>
       </fieldset>
       <fieldset>
         <div className="form-group">
           <label htmlFor="location">Assign to location: </label>
-          <select name="locationId" id="locationId" className="form-control">
+          <select name="locationId" id="locationId" className="form-control" value={animal.locationId} onChange={handleControlledInputChange}>
             <option value="0">Select a location</option>
+            {locations.map(l => (
+              <option key={l.id} value={l.id}>
+                {l.name}
+              </option>
+            ))}
           </select>
         </div>
       </fieldset>
       <fieldset>
         <div className="form-group">
           <label htmlFor="customerId">Customer: </label>
-          <select name="customer" id="customerId" className="form-control">
+          <select name="customer" id="customerId" className="form-control" value={animal.customerId} onChange={handleControlledInputChange}>
             <option value="0">Select a customer</option>
+            {customers.map(c => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
           </select>
         </div>
       </fieldset>
-      <button className="btn btn-primary">
+      <button className="btn btn-primary" onClick={handleClickSaveAnimal}>
         Save Animal
       </button>
     </form>
