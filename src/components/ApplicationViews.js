@@ -32,7 +32,8 @@ export const ApplicationViews = () => {
           </AnimalProvider>
         </LocationProvider>
       </CustomerProvider>
-
+      
+      {/* Render the location list when http://localhost:3000/locations */}
       <LocationProvider>
         <Route path="/locations">
           <LocationList />
