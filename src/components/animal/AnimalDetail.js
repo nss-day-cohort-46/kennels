@@ -8,8 +8,9 @@ export const AnimalDetail = () => {
 
   const [animal, setAnimal] = useState({})
 
-  const { animalId } = useParams();
-  const history = useHistory();
+  const { animalId } = useParams()
+  const history = useHistory()
+  // debugger
 
   useEffect(() => {
     console.log("useEffect", animalId)
