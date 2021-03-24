@@ -1,5 +1,5 @@
 import React from "react"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { Home } from "./Home"
 import { AnimalProvider } from "./animal/AnimalProvider"
 import { LocationProvider } from "./location/LocationProvider"
@@ -12,6 +12,9 @@ import { EmployeeList } from "./employee/EmployeeList"
 import { AnimalForm } from "./animal/AnimalForm"
 import { AnimalDetail } from "./animal/AnimalDetail"
 import { AnimalSearch } from "./animal/AnimalSearch"
+import { About } from "./About"
+import { Login } from "./auth/Login"
+import { Register } from "./auth/Register"
 
 export const ApplicationViews = () => {
   return (
@@ -19,6 +22,10 @@ export const ApplicationViews = () => {
       {/* Render the location list when http://localhost:3000/ */}
       <Route exact path="/">
         <Home />
+      </Route>
+
+      <Route path="/about">
+        <About />
       </Route>
 
       {/* Render the animal list when http://localhost:3000/animals */}
@@ -29,15 +36,13 @@ export const ApplicationViews = () => {
               <AnimalSearch />
               <AnimalList />
             </Route>
-            <Route path="/animals/create">
-              <AnimalForm />
-            </Route>
-            <Route exact path="/animals/detail/:animalId(\d+)">
-              <AnimalDetail />
-            </Route>
-            <Route exact path="/animals/edit/:animalId(\d+)">
-              <AnimalForm />
-            </Route>
+
+            <Route exact path="/animals/create" render={() => localStorage.getItem("kennel_customer") ? <AnimalForm /> : <Redirect to="/login" />} />
+
+            <Route exact path="/animals/detail/:animalId(\d+)" render={() => localStorage.getItem("kennel_customer") ? <AnimalDetail /> : <Redirect to="/login" />} />
+
+            <Route exact path="/animals/edit/:animalId(\d+)" render={() => localStorage.getItem("kennel_customer") ? <AnimalForm /> : <Redirect to="/login" />} />
+
           </AnimalProvider>
         </LocationProvider>
       </CustomerProvider>
@@ -60,6 +65,13 @@ export const ApplicationViews = () => {
           <EmployeeList />
         </Route>
       </EmployeeProvider>
+
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/register">
+        <Register />
+      </Route>
     </>
   )
 }
